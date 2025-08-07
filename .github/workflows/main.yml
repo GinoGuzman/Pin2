@@ -16,10 +16,10 @@ jobs:
         run: bash instalar_herramientas_devops.sh
 
       - name: Desplegar NGINX
-        run: bash nginx/nginx-deployment.yaml
+        run: kubectl apply -f  nginx/nginx-deployment.yaml
 
       - name: Configurar Service NGINX
-        run: bash nginx/nginx-service.yaml
+        run: kubectl apply -f  nginx/nginx-service.yaml
       
       - name: Ejecutar Prometheus
         run: bash scripts/run_prometheus.sh
