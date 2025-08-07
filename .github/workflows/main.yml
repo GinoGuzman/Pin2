@@ -21,7 +21,7 @@ jobs:
 
       - name: Ejecutar instalación en servidor remoto
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem user@host 'bash -s' < .instalar_herramientas_devops.sh
+          ssh -o StrictHostKeyChecking=no -i key.pem user@host 'bash -s' < instalar_herramientas_devops.sh
 
       - name: Copiar archivos para Prometheus + Grafana
         run: |
