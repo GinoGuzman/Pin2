@@ -6,6 +6,7 @@ on:
 
 jobs:
   setup-devops-stack:
+    name: Instala Herramientas Devops
     runs-on: ubuntu-latest
 
     steps:
@@ -14,18 +15,16 @@ jobs:
 
       - name:  Instalar herramientas DevOps
         run: bash instalar_herramientas_devops.sh
+        
+  Desplegar-Nginx:
+    name: Desplegar Nginx
+    runs-on: ubuntu-latest
+    needs: setup-devops-stack
 
+    steps:
       - name: Desplegar NGINX
         run: kubectl apply -f  nginx/nginx-deployment.yaml
 
       - name: Configurar Service NGINX
         run: kubectl apply -f  nginx/nginx-service.yaml
       
-      - name: Ejecutar Prometheus
-        run: bash scripts/run_prometheus.sh
-
-      - name: 📈 Ejecutar Grafana
-        run: bash scripts/run_grafana.sh
-
-      - name: ✅ Verificar contenedores
-        run: docker ps
