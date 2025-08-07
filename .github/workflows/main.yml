@@ -22,6 +22,9 @@ jobs:
     needs: setup-devops-stack
 
     steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+        
       - name: Desplegar NGINX
         run: kubectl apply -f  nginx/nginx-deployment.yaml
 
