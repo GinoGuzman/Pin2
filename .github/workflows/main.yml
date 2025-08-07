@@ -17,6 +17,9 @@ jobs:
 
       - name: Desplegar NGINX
         run: bash nginx/nginx-deployment.yaml
+
+      - name: Configurar Service NGINX
+        run: bash nginx/nginx-service.yaml
       
       - name: Ejecutar Prometheus
         run: bash scripts/run_prometheus.sh
