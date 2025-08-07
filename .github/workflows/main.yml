@@ -1,32 +1,28 @@
-name: DevOps Stack Setup
+name: Deploy DevOps Infra
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  setup:
-    name: Setup DevOps Tools and Monitoring
+  setup-devops-stack:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name:  Clonar repositorio
         uses: actions/checkout@v4
 
-      - name: Crear clave SSH
-        run: |
-          echo "${{ secrets.MY_SSH_KEY }}" > key.pem
-          chmod 600 key.pem
+      - name:  Instalar herramientas DevOps
+        run: bash instalar_herramientas_devops.sh
 
-      - name: Ejecutar instalación en servidor remoto
-        run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem user@host 'bash -s' < instalar_herramientas_devops.sh
+      - name: Desplegar NGINX
+        run: bash nginx/nginx-deployment.yaml
+      
+      - name: Ejecutar Prometheus
+        run: bash scripts/run_prometheus.sh
 
-      - name: Copiar archivos para Prometheus + Grafana
-        run: |
-          scp -i key.pem -o StrictHostKeyChecking=no -r ./deploy/* user@host:/home/user/deploy/
+      - name: 📈 Ejecutar Grafana
+        run: bash scripts/run_grafana.sh
 
-      - name: Levantar Prometheus + Grafana en el servidor
-        run: |
-          ssh -i key.pem -o StrictHostKeyChecking=no user@host 'cd ~/deploy && docker-compose up -d'
+      - name: ✅ Verificar contenedores
+        run: docker ps
